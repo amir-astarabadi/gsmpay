@@ -1,0 +1,104 @@
+services:
+    nginx:
+        build:
+            context: "./docker/nginx"
+            dockerfile: Dockerfile
+        container_name: gsmpay_nginx
+        ports:
+            - ${NGINX_PORT:-8000}:80
+        environment:
+            - TZ=Asia/Tehran
+        volumes:
+            - .:/var/www/html
+        networks:
+            - gsmpay_network
+        depends_on:
+            - php
+
+    php:
+        build:
+            context: "./docker/php"
+            dockerfile: Dockerfile
+        container_name: gsmpay_php
+        volumes:
+            - .:/var/www/html
+        networks:
+            - gsmpay_network
+        environment:
+            PHP_XDEBUG_MODE: ${PHP_XDEBUG_MODE:-debug,develop}
+            PHP_XDEBUG_AUTOSTART: ${PHP_XDEBUG_AUTOSTART:-yes}
+            PHP_XDEBUG_HOST: host.docker.internal
+            PHP_XDEBUG_PORT: 9003
+            PHP_XDEBUG_IDE_KEY: phpstorm
+            PHP_IDE_CONFIG: serverName=gsmpay
+            XDEBUG_CONFIG: ${PHP_XDEBUG_CONFIG:-}
+        extra_hosts:
+            - host.docker.internal:${DOCKER_HOST_GATEWAY:-host-gateway}
+        depends_on:
+            - mysql
+            - redis
+
+    mysql:
+        image: mysql:8.1.0
+        container_name: gsmpay_mysql
+        ports:
+            - ${MYSQL_PORT:-8026}:3306
+        volumes:
+            - gsmpay_mysql_data:/var/lib/mysql
+            - ./docker/mysql/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
+        environment:
+            - TZ=Asia/Tehran
+            - MYSQL_ROOT_PASSWORD=password
+            - MYSQL_DATABASE=gsmpay
+        networks:
+            - gsmpay_network
+
+    phpmyadmin:
+        image: phpmyadmin:5.2.1
+        container_name: gsmpay_pma
+        ports:
+            - ${PMA_PORT:-8001}:80
+        environment:
+            PMA_HOST: gsmpay_mysql
+            MYSQL_ROOT_PASSWORD: password
+        networks:
+            - gsmpay_network
+        depends_on:
+            - mysql
+
+    redis:
+        image: redis:6.2.6-alpine
+        container_name: gsmpay_redis
+        ports:
+            - ${REDIS_PORT:-8029}:6379
+        environment:
+            - TZ=Asia/Tehran
+        volumes:
+            - gsmpay_redis_data:/usr/local/etc/redis
+        networks:
+            - gsmpay_network
+    minio:
+        image: minio/minio:RELEASE.2024-04-18T19-09-19Z
+        container_name: gsmpay_minio
+        hostname: minio.gsmpay.local # point this hostname to 127.0.0.1 in the `/etc/hosts` file of your host machine
+        command: >
+            server /data --address ":${MINIO_PORT:-8022}" --console-address ":${MINIO_CONSOLE_PORT:-8023}"
+        ports:
+            - "${MINIO_PORT:-8022}:${MINIO_PORT:-8022}"
+            - "${MINIO_CONSOLE_PORT:-8023}:${MINIO_CONSOLE_PORT:-8023}"
+        volumes:
+            - gsmpay_minio_data:/data
+        environment:
+            - TZ=Asia/Tehran
+            - MINIO_ROOT_USER=root
+            - MINIO_ROOT_PASSWORD=password
+        networks:
+            - gsmpay_network
+
+networks:
+    gsmpay_network:
+
+volumes:
+    gsmpay_mysql_data:
+    gsmpay_redis_data:
+    gsmpay_minio_data:
