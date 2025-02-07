@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained();
             $table->string('title', 1024)->fulltext();
             $table->text('body')->fulltext();
+            $table->unsignedBigInteger('views')->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

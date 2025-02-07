@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources\User;
+namespace App\Http\Resources\Post;
 
+use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class PostResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +17,10 @@ class UserResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "name" => $this->name,
-            "avatar" => $this->avatar,
-            "auth_token" => $this->when($this->auth_token, $this->auth_token),
+            "title" => $this->title,
+            "body" => $this->body,
+            "views" => $this->views,
+            "author" => UserResource::make($this->author)
         ];
     }
 }
