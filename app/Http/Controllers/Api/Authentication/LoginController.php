@@ -13,7 +13,7 @@ class LoginController extends Controller
 {
     public function login(LoginRequest $request, AuthService $authService)
     {
-        $token = $authService->login($request->validated());
+        $token = $authService->attemptlogin($request->validated());
 
         if (! $token) {
             return FailResponse::make(['error' => __('Invalid Credentials')], Response::HTTP_UNAUTHORIZED);
