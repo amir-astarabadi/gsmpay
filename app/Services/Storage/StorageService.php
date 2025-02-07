@@ -18,7 +18,7 @@ class StorageService
         return Storage::disk(User::PROFILE_STORAGE_DISK)->putFileAs($filepath, $profileImage, $filename);
     }
 
-    public function getProfileUrl(string $address): ?string
+    public function getProfileUrl(?string $address): ?string
     {
         return Storage::disk(User::PROFILE_STORAGE_DISK)->url($address);
     }
