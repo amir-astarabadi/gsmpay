@@ -12,8 +12,8 @@ class AuthService
         return JWTAuth::attempt($credentials);
     }
 
-    public function getAuthUser(): ?Authenticatable
+    public function getAuthUser(string $guard = 'api'): ?Authenticatable
     {
-        return auth()->user();
+        return auth($guard)->user();
     }
 }

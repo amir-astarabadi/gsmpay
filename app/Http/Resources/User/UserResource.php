@@ -16,7 +16,7 @@ class UserResource extends JsonResource
     {
         return [
             "id" => $this->id,
-
+            "avatar" => $this->avatar,
             "auth_token" => $this->when($this->auth_token, $this->auth_token),
         ];
     }

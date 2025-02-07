@@ -3,10 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Services\Storage\StorageService;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -18,11 +21,14 @@ class User extends Authenticatable implements JWTSubject
     # Attributes
     ##############################################
 
+    public const PROFILE_STORAGE_DISK = 'user_profile';
+
     protected $fillable = [
         'name',
         'email',
         'mobile',
         'password',
+        'profile_image'
     ];
 
     protected $hidden = [
@@ -43,6 +49,13 @@ class User extends Authenticatable implements JWTSubject
     # Accessors
     ##############################################
 
+    public function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => resolve(StorageService::class)->getProfileUrl($this->profile_image)
+        );
+    }
+
     ##############################################
     # Mutators
     ##############################################
@@ -57,7 +70,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class );
+        return $this->hasMany(Post::class);
     }
 
 
@@ -75,8 +88,15 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function setAuthToken(string $token):void
+    public function setAuthToken(string $token): void
     {
         $this->auth_token = $token;
+    }
+
+    public function updateProfile(array $attributes): self
+    {
+        $this->update($attributes);
+
+        return $this;
     }
 }

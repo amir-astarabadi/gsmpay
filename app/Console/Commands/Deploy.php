@@ -27,6 +27,7 @@ class Deploy extends Command
     public function handle()
     {
         $this->resetConfig();
+        $this->linkStorage();
         $this->setJWTSecret();
     }
 
@@ -40,5 +41,11 @@ class Deploy extends Command
     private function resetConfig()
     {
         Artisan::call('config:cache');
+    }
+
+
+    private function linkStorage()
+    {
+        Artisan::call('storage:link');
     }
 }
