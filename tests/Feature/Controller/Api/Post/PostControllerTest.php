@@ -63,4 +63,84 @@ class PostControllerTest extends TestCase
                 ->etc()
         );
     }
+
+    public function test_post_show()
+    {
+        $post = Post::factory()->create();
+
+        $response = $this->getJson(route('api.posts.show', ['post' => $post]));
+
+        $response->assertOk();
+
+        $response->assertJson(
+            fn($respons) =>
+            $respons->where('data.title', $post->title)
+                ->where('data.body', $post->body)
+                ->where('data.views', $post->views)
+                ->where('data.author.id', $post->author->id)
+                ->where('data.author.name', $post->author->name)
+                ->where('data.author.avatar', $post->author->avatar)
+                ->etc()
+        );
+    }
+
+    public function test_post_show_with_guest_user()
+    {
+        $post = Post::factory()->create();
+        $oldViews = $post->views;
+
+        // first view => increase views count
+        $this->getJson(route('api.posts.show', ['post' => $post]));
+        $post->refresh();
+
+        $this->assertDatabaseHas(
+            'post_views',
+            [
+                'post_id' => $post->getKey(),
+                'user_id' => null,
+                'ip_address' => request()->ip()
+            ]
+        );
+
+        $this->assertEquals($post->views, $oldViews + 1);
+
+        // second view => does not touch views count
+        $this->getJson(route('api.posts.show', ['post' => $post]));
+        $post->refresh();
+
+        $this->assertDatabaseCount('post_views', 1);
+        $this->assertEquals($post->views, $oldViews + 1);
+    }
+
+    public function test_post_show_with_auth_user()
+    {
+
+        $post = Post::factory()->create();
+        $oldViews = $post->views;
+
+        // first view => increase views count
+        $this->getJson(route('api.posts.show', ['post' => $post]), [
+            'Authorization' => "Bearer {$this->authUser->auth_token}"
+        ]);
+        $post->refresh();
+
+        $this->assertDatabaseHas(
+            'post_views',
+            [
+                'post_id' => $post->getKey(),
+                'user_id' => $this->authUser->id,
+                'ip_address' => request()->ip()
+            ]
+        );
+
+        $this->assertEquals($post->views, $oldViews + 1);
+
+        // second view => does not touch views count
+        $this->getJson(route('api.posts.show', ['post' => $post]), [
+            'Authorization' => "Bearer {$this->authUser->auth_token}"
+        ]);
+        $post->refresh();
+        $this->assertDatabaseCount('post_views', 1);
+        $this->assertEquals($post->views, $oldViews + 1);
+    }
 }

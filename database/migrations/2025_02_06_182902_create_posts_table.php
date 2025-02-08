@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained();
             $table->string('title', 1024)->fulltext();
             $table->text('body')->fulltext();
-            $table->unsignedBigInteger('views')->nullable()->default(0);
+            $table->unsignedBigInteger('views')->nullable()->default(0)->comment('behave like cache for post_view table');
             $table->timestamps();
             $table->softDeletes();
         });
