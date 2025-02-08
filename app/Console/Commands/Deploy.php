@@ -27,6 +27,7 @@ class Deploy extends Command
      */
     public function handle()
     {
+        $this->setAppKey();
         $this->resetConfig();
         $this->linkStorage();
         $this->setJWTSecret();
@@ -34,6 +35,13 @@ class Deploy extends Command
 
         if (!app()->isProduction()) {
             $this->seedDatabase();
+        }
+    }
+
+    private function setAppKey()
+    {
+        if (empty(config('app.key'))) {
+            Artisan::call('key:generate', ['--force' => true]);
         }
     }
 

@@ -4,6 +4,7 @@
     - docker compose build
     - docker compose up -d
     - docker exec -it gsmpay_php sh
-    - compser install
+    - composer install
+    - cp .env.example .env
     - php artisan deploy 
     - php artisan test
