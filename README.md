@@ -8,3 +8,5 @@
     - cp .env.example .env
     - php artisan deploy 
     - php artisan test
+    - add an image with the name of default_profile.png in the path storage/app/public/user/profiles
+    - chmod -R 777 *

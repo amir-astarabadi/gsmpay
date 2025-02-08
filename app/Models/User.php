@@ -24,6 +24,8 @@ class User extends Authenticatable implements JWTSubject
 
     public const PROFILE_STORAGE_DISK = 'user_profile';
 
+    public const DEFAULT_AVATAR = 'default_profile.png';
+
     protected $fillable = [
         'name',
         'email',
@@ -55,7 +57,12 @@ class User extends Authenticatable implements JWTSubject
     public function avatar(): Attribute
     {
         return Attribute::make(
-            get: fn() => resolve(StorageService::class)->getProfileUrl($this->profile_image)
+            get: function(){
+                if(is_null($this->profile_image)){
+                    resolve(StorageService::class)->getProfileUrl(self::DEFAULT_AVATAR);
+                }
+                return resolve(StorageService::class)->getProfileUrl($this->profile_image);
+            }
         );
     }
 
