@@ -15,7 +15,7 @@ class PostController extends Controller
 {
     public function index(PostIndexRequest $request)
     {
-        $posts = Post::getPaginateOrderedPosts($request->validated('page'), $request->validated('per_page'));
+        $posts = Post::getPaginateOrderedPosts($request->validated('page', 1), $request->validated('per_page', 15));
 
         return SuccessResponse::make(PostResourceCollection::make($posts));
     }

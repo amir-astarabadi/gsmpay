@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Controllers\Api\Author;
 
-use App\Models\Post;
 use App\Models\User;
 use Tests\TestCase;
 
 class AuthorControllerTest extends TestCase
 {
-    public function test_example(): void
+    public function test_authors_index(): void
     {
         $userWithLessViews = User::factory()->create(['post_views' => 1]);
         $userWithMoreViews = User::factory()->create(['post_views' => 2]);

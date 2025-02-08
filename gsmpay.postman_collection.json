@@ -1,0 +1,573 @@
+{
+	"info": {
+		"_postman_id": "8fa0e700-0a08-4998-8266-b17a9e57d83f",
+		"name": "gsmpay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29775150"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.environment.set(\"authToken\", jsonData.data.auth_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobile\": \"09302631762\",\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"mobile\": \"09302631762\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.26.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Feb 2025 11:38:56 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"amir\",\n        \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n        \"post_counts\": 2,\n        \"post_views\": 0,\n        \"auth_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzM5MDE0NzM2LCJleHAiOjE3MzkwMTgzMzYsIm5iZiI6MTczOTAxNDczNiwianRpIjoiVDZac2c0Q2lSTGo5MGpTbyIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.3AAuIeGa39q13fRRD3y8XWBctmbTWnqrrvzmkfTzf80\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profile_image",
+									"type": "file",
+									"src": "/home/amir/projects/gsmpay/storage/app/public/user/profiles/default_profile.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/profiles",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"profiles"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success profile image update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "profile_image",
+											"type": "file",
+											"src": "/home/amir/projects/gsmpay/storage/app/public/user/profiles/default_profile.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/profiles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"profiles"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.26.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Feb 2025 11:45:17 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"amir\",\n        \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n        \"post_counts\": 2,\n        \"post_views\": 0\n    },\n    \"server_time\": \"2025-02-08 11:45:17\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/posts?page=1&per_page=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success index",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/posts?page=1&per_page=10",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "per_page",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.26.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Feb 2025 11:49:04 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 162,\n            \"title\": \"Molestiae eos saepe ab deleniti libero.\",\n            \"body\": \"Cumque vel maxime eveniet accusantium. Ipsum quod cumque ut maxime et sed. Corporis qui accusantium cum necessitatibus. Cum non ut explicabo nulla impedit ut.\",\n            \"views\": 79,\n            \"author\": {\n                \"id\": 51,\n                \"name\": \"Mrs. Jaquelin Hodkiewicz\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 1,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 147,\n            \"title\": \"Porro beatae maiores sit.\",\n            \"body\": \"Voluptate explicabo libero sit id reprehenderit itaque aut. At exercitationem expedita adipisci. Similique nesciunt consectetur corrupti dolor mollitia ut ipsum. Sit accusantium deserunt fuga ducimus architecto amet.\",\n            \"views\": 91,\n            \"author\": {\n                \"id\": 46,\n                \"name\": \"Loy Block\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 4,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 141,\n            \"title\": \"Et sit minima dolore animi.\",\n            \"body\": \"Praesentium inventore ea ipsa et neque nihil. Quo atque alias dignissimos beatae sint architecto. Velit corrupti accusantium quibusdam in.\",\n            \"views\": 99,\n            \"author\": {\n                \"id\": 45,\n                \"name\": \"Hayley Medhurst\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 3,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 146,\n            \"title\": \"Adipisci consectetur ut atque.\",\n            \"body\": \"Nisi porro ex itaque possimus tenetur unde. Nesciunt mollitia optio amet sequi aut. Unde dolorum alias veritatis vel et quos. Quibusdam omnis eum nihil quae autem quidem vel.\",\n            \"views\": 64,\n            \"author\": {\n                \"id\": 46,\n                \"name\": \"Loy Block\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 4,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 145,\n            \"title\": \"Rerum voluptatem cum est excepturi laudantium molestiae commodi pariatur.\",\n            \"body\": \"Officia enim est quis optio enim unde id. Laudantium vitae non numquam est.\",\n            \"views\": 71,\n            \"author\": {\n                \"id\": 46,\n                \"name\": \"Loy Block\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 4,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 144,\n            \"title\": \"Voluptatem sit iste quo odit sit.\",\n            \"body\": \"Quasi facilis magni in voluptatem. Iste est in omnis. Explicabo sed voluptatum occaecati ut pariatur consequatur. Non molestias molestias quidem ut tenetur est praesentium.\",\n            \"views\": 99,\n            \"author\": {\n                \"id\": 46,\n                \"name\": \"Loy Block\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 4,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 143,\n            \"title\": \"Dicta facilis enim maxime est animi.\",\n            \"body\": \"Consequatur ut nesciunt et. Quasi quia dignissimos consequatur. Et magnam aspernatur qui enim reiciendis explicabo minus. Non molestiae nihil ut et nostrum.\",\n            \"views\": 22,\n            \"author\": {\n                \"id\": 45,\n                \"name\": \"Hayley Medhurst\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 3,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 142,\n            \"title\": \"Quia aut incidunt consequatur minus perspiciatis sunt.\",\n            \"body\": \"Aut beatae deleniti voluptatem quod. Quia aspernatur ad dolore recusandae magnam. Hic et recusandae fuga nesciunt eum.\",\n            \"views\": 60,\n            \"author\": {\n                \"id\": 45,\n                \"name\": \"Hayley Medhurst\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 3,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 140,\n            \"title\": \"Sint commodi accusamus aut laboriosam soluta quod voluptates.\",\n            \"body\": \"Incidunt molestiae optio commodi ut. Dignissimos ex minus debitis possimus.\",\n            \"views\": 95,\n            \"author\": {\n                \"id\": 44,\n                \"name\": \"Garrett Bergstrom\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 5,\n                \"post_views\": 0\n            }\n        },\n        {\n            \"id\": 134,\n            \"title\": \"Tempore error velit eaque nisi aut ut.\",\n            \"body\": \"Tempora et modi facilis fuga quae aperiam rerum aut. Voluptatem sed perspiciatis recusandae nihil. Aut corrupti est ipsa iusto molestiae consequatur ut.\",\n            \"views\": 0,\n            \"author\": {\n                \"id\": 43,\n                \"name\": \"Layla Hodkiewicz\",\n                \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n                \"post_counts\": 4,\n                \"post_views\": 0\n            }\n        }\n    ],\n    \"meta\": {\n        \"total\": 162,\n        \"current_page\": 1\n    },\n    \"server_time\": \"2025-02-08 11:49:04\"\n}"
+						}
+					]
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/posts/:post",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"posts",
+								":post"
+							],
+							"variable": [
+								{
+									"key": "post",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success show",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/posts/:post",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"posts",
+										":post"
+									],
+									"variable": [
+										{
+											"key": "post",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.26.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Feb 2025 11:54:19 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"Nihil doloremque ut sed rerum.\",\n        \"body\": \"Explicabo esse eius sed modi repellendus neque. Quaerat nobis dolorum dolores possimus. Non aspernatur fugit ut quis laborum itaque.\",\n        \"views\": 73,\n        \"author\": {\n            \"id\": 1,\n            \"name\": \"amir\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 2,\n            \"post_views\": 1\n        }\n    },\n    \"server_time\": \"2025-02-08 11:54:19\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Author",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/authors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"authors"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success index",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/authors",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"authors"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "nginx/1.26.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 08 Feb 2025 11:56:27 GMT"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"amir\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 2,\n            \"post_views\": 1\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Prof. Grayson Mraz MD\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 4,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Matilde Heaney\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 5,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Everett Jaskolski\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 3,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Miss Earnestine Bashirian III\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 4,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Miss Vallie Mills PhD\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 5,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Shaniya Turcotte DVM\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 2,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Desiree Green\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 3,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Dr. Demarco Haag DVM\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 3,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 10,\n            \"name\": \"Alba Feil MD\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 4,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 11,\n            \"name\": \"Mrs. Madge Schmeler\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 2,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 12,\n            \"name\": \"Ismael Reichert\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 2,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 13,\n            \"name\": \"Matilda Nikolaus\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 3,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 14,\n            \"name\": \"Dr. Cassandra Heaney\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 4,\n            \"post_views\": 0\n        },\n        {\n            \"id\": 15,\n            \"name\": \"Prof. Andreanne Morissette\",\n            \"avatar\": \"127.0.0.1:8000/storage/user/profiles/default_profile.png\",\n            \"post_counts\": 4,\n            \"post_views\": 0\n        }\n    ],\n    \"meta\": {\n        \"total\": 51,\n        \"current_page\": 1\n    },\n    \"server_time\": \"2025-02-08 11:56:27\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "127.0.0.1:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzM5MDE0OTE1LCJleHAiOjE3MzkwMTg1MTUsIm5iZiI6MTczOTAxNDkxNSwianRpIjoieGlKNG45eDZLTFlyVUF6MSIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.xyv_fiZhO2MtsDGldBVHCTrF7a5IzNqe1kfySEKoCBM",
+			"type": "string"
+		}
+	]
+}

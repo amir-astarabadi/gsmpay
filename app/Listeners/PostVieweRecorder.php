@@ -2,12 +2,11 @@
 
 namespace App\Listeners;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
 use App\Events\PostViewedEvent;
 use App\Models\PostView;
 
-class PostVieweRecorder implements ShouldQueue
+class PostVieweRecorder
 {
     /**
      * Create the event listener.
@@ -39,7 +38,8 @@ class PostVieweRecorder implements ShouldQueue
             ]);
 
             $view->post()->update(['views' => DB::raw('views + 1')]);
-            $view->post->author(['post_views' => DB::raw('post_views + 1')]);
+
+            $view->post->author()->update(['post_views' => DB::raw('post_views + 1')]);
         });
     }
 }

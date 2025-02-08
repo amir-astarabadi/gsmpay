@@ -67,6 +67,7 @@ class PostControllerTest extends TestCase
     public function test_post_show()
     {
         $post = Post::factory()->create();
+        $oldViews = $post->views;
 
         $response = $this->getJson(route('api.posts.show', ['post' => $post]));
 
@@ -76,7 +77,7 @@ class PostControllerTest extends TestCase
             fn($respons) =>
             $respons->where('data.title', $post->title)
                 ->where('data.body', $post->body)
-                ->where('data.views', $post->views)
+                ->where('data.views', $oldViews + 1)
                 ->where('data.author.id', $post->author->id)
                 ->where('data.author.name', $post->author->name)
                 ->where('data.author.avatar', $post->author->avatar)

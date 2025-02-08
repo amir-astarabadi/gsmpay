@@ -59,7 +59,7 @@ class User extends Authenticatable implements JWTSubject
         return Attribute::make(
             get: function(){
                 if(is_null($this->profile_image)){
-                    resolve(StorageService::class)->getProfileUrl(self::DEFAULT_AVATAR);
+                    return resolve(StorageService::class)->getProfileUrl(self::DEFAULT_AVATAR);
                 }
                 return resolve(StorageService::class)->getProfileUrl($this->profile_image);
             }
