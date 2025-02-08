@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Services\Storage\StorageService;
 use Illuminate\Notifications\Notifiable;
@@ -28,7 +29,9 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'mobile',
         'password',
-        'profile_image'
+        'profile_image',
+        'post_counts',
+        'post_views',
     ];
 
     protected $hidden = [
@@ -98,5 +101,10 @@ class User extends Authenticatable implements JWTSubject
         $this->update($attributes);
 
         return $this;
+    }
+
+    public static function getPaginateOrderedViews(int $page = 1, int $perPage = 15): LengthAwarePaginator
+    {
+        return self::orderByDesc('post_views')->paginate(perPage: $perPage, page: $page);
     }
 }

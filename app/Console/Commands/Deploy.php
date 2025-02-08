@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Artisan;
 
 class Deploy extends Command
@@ -29,6 +30,11 @@ class Deploy extends Command
         $this->resetConfig();
         $this->linkStorage();
         $this->setJWTSecret();
+        $this->runMigrations();
+
+        if (!app()->isProduction()) {
+            $this->seedDatabase();
+        }
     }
 
     private function setJWTSecret()
@@ -43,9 +49,19 @@ class Deploy extends Command
         Artisan::call('config:cache');
     }
 
-
     private function linkStorage()
     {
         Artisan::call('storage:link');
+    }
+
+    private function runMigrations()
+    {
+        Artisan::call('migrate', ['--force' => true]);
+    }
+
+
+    private function seedDatabase()
+    {
+        Artisan::call('db:seed', ['--force' => true]);
     }
 }

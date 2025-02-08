@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('profile_image', 256)->nullable();
+            $table->unsignedBigInteger('post_counts')->nullable()->default(0)->comment('number of user submited posts');
+            $table->unsignedBigInteger('post_views')->nullable()->default(0)->comment('times user posts has been viewed');
             $table->timestamps();
             $table->softDeletes();
         });

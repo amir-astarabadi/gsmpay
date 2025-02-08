@@ -18,6 +18,8 @@ class UserResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "avatar" => $this->avatar,
+            "post_counts" => $this->post_counts,
+            "post_views" => $this->post_views,
             "auth_token" => $this->when($this->auth_token, $this->auth_token),
         ];
     }

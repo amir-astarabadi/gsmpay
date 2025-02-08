@@ -39,6 +39,7 @@ class PostVieweRecorder implements ShouldQueue
             ]);
 
             $view->post()->update(['views' => DB::raw('views + 1')]);
+            $view->post->author(['post_views' => DB::raw('post_views + 1')]);
         });
     }
 }
